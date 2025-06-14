@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>수업 정보 조회</title>
+</head>
+<body>
+  <h1>수업 조회 시스템</h1>
+  <label for="studentId">학번 입력:</label>
+  <input type="text" id="studentId" placeholder="예: 202301">
+  <button onclick="search()">조회</button>
+
+  <div id="result" style="margin-top:20px;"></div>
+
+  <script>
+    const sheetId = "11fUWPWYvso1oJbBlHr-aM7kCsLE5AiMKHfQXCLy_li4";
+    const sheetName = "전체명단";
+    let data = [];
+
+    async function fetchData() {
+      const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?sheet=${sheetName}`;
+      const response = await fetch(url);
+      const text = await response.text();
+
+      const jsonData = JSON.parse(text.substring(47).slice(0, -2));
+      const rows = jsonData.table.rows;
+
+      data = rows.map(row => {
+        return {
+          순: row.c[0]?.v || "",
+          학번: row.c[1]?.v || "",
+          성명: row.c[2]?.v || "",
+          수업주제: row.c[3]?.v || "",
+          융합과목: row.c[4]?.v || "",
+          지도교사: row.c[5]?.v || "",
+          수업교실: row.c[6]?.v || ""
+        };
+      });
+    }
+
+    async function search() {
+      if (data.length === 0) {
+        await fetchData();
+      }
+
+      const id = document.getElementById("studentId").value.trim();
+      const result = data.find(item => item.학번 === id);
+
+      const resultDiv = document.getElementById("result");
+      if (result) {
+        resultDiv.innerHTML = `
+          <p><strong>이름:</strong> ${result["성명"]}</p>
+          <p><strong>수업주제:</strong> ${result["수업주제"]}</p>
+          <p><strong>수업교실:</strong> ${result["수업교실"]}</p>
+        `;
+      } else {
+        resultDiv.innerHTML = `<p style="color:red;">해당 학번을 찾을 수 없습니다.</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
