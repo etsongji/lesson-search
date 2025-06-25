@@ -29,12 +29,13 @@
         data = rows.map(row => {
           return {
             순: row.c[0]?.v || "",
-            학번: row.c[1]?.v?.toString() || "",
-            성명: row.c[2]?.v || "",
-            수업주제: row.c[3]?.v || "",
-            융합과목: row.c[4]?.v || "",
-            지도교사: row.c[5]?.v || "",
-            수업교실: row.c[6]?.v || ""
+            반: row.c[1]?.v || "",
+            학번: row.c[2]?.v?.toString() || "",
+            성명: row.c[3]?.v || "",
+            수업주제: row.c[4]?.v || "",
+            융합과목: row.c[5]?.v || "",
+            지도교사: row.c[6]?.v || "",
+            수업교실: row.c[7]?.v || ""
           };
         });
 
@@ -56,6 +57,7 @@
       if (result) {
         resultDiv.innerHTML = `
           <p><strong>이름:</strong> ${result["성명"]}</p>
+          <p><strong>반:</strong> ${result["반"]}</p>
           <p><strong>수업주제:</strong> ${result["수업주제"]}</p>
           <p><strong>수업교실:</strong> ${result["수업교실"]}</p>
         `;
