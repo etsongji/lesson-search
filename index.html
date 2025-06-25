@@ -29,7 +29,7 @@
         data = rows.map(row => {
           return {
             순: row.c[0]?.v || "",
-            반: row.c[1]?.v || "",
+            반: row.c[1]?.v || "",  // '반'은 저장만 하고 표시 안 함
             학번: row.c[2]?.v?.toString() || "",
             성명: row.c[3]?.v || "",
             수업주제: row.c[4]?.v || "",
@@ -57,7 +57,6 @@
       if (result) {
         resultDiv.innerHTML = `
           <p><strong>이름:</strong> ${result["성명"]}</p>
-          <p><strong>반:</strong> ${result["반"]}</p>
           <p><strong>수업주제:</strong> ${result["수업주제"]}</p>
           <p><strong>수업교실:</strong> ${result["수업교실"]}</p>
         `;
